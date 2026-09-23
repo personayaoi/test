@@ -1,0 +1,53 @@
+body {
+    background: linear-gradient(90deg, rgb(255, 237, 178), rgb(255, 237, 178))
+}
+
+body {
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
+}
+
+/* Evita que a tela crie barras de rolagem horizontais */
+body {
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  min-height: 100vh; /* Garante área para o pintinho se posicionar */
+}
+
+/* Configurações do Pintinho */
+.imagem-movivel {
+  width: 150px;
+  display: block;
+  
+  /* CORREÇÃO AQUI: Força o pintinho a já nascer escondido na extrema esquerda */
+  position: absolute;
+  left: -150px; 
+  top: 50%; /* Centraliza ele verticalmente na tela (pode ajustar se quiser) */
+  transform: translateY(-50%);
+
+  /* Mantém a caminhada 100% linear e constante */
+  animation: 
+    atravessarTela 3s infinite linear, 
+    passoDesenho 0.3s infinite alternate ease-in-out;
+}
+
+/* 1. O balanço dos passos (ritmo do desenho animado) */
+@keyframes passoDesenho {
+  0% {
+    transform: translateY(-50%) rotate(-6deg);
+  }
+  100% {
+    transform: translateY(calc(-50% - 12px)) rotate(6deg); /* Aplica o pulinho mantendo o alinhamento central */
+  }
+}
+
+/* 2. A travessia da tela (Começa exatamente na esquerda externa e termina na direita externa) */
+@keyframes atravessarTela {
+  0% {
+    left: -150px; /* Começo exato fora da tela na esquerda */
+  }
+  100% {
+    left: 100vw; /* Fim exato fora da tela na direita */
+  }
+}

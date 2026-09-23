@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplicativo de Gestão Financeira Inteligente</title>
+    <link rel="stylesheet" href="abstracione_chatgpt.css">
+</head>
+<body>
+
+    <div class="container">
+
+        <!-- Bloco 1: Orçamento e Abstração -->
+        <section class="card setup-section">
+
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="orcamento">Orçamento do Mês (R\$):</label>
+                    <input type="number" id="orcamento" placeholder="Ex: 3000" min="0" oninput="atualizarPainel()">
+                </div>
+                <div class="form-group">
+                    <label for="reserva-pct">Fundo de Reserva (%):</label>
+                    <input type="number" id="reserva-pct" value="10" min="0" max="100" oninput="atualizarPainel()">
+                </div>
+            </div>
+
+            <!-- Painel de Resultados em Tempo Real -->
+            <div class="painel-financeiro">
+                <div class="p-item">
+                    <span>Reserva Guardada:</span>
+                    <strong id="val-reserva">R\$ 0,00</strong>
+                </div>
+                <div class="p-item">
+                    <span>Disponível para Gastar:</span>
+                    <strong id="val-disponivel">R\$ 0,00</strong>
+                </div>
+                <div class="p-item total-gasto">
+                    <span>Total Já Gasto:</span>
+                    <strong id="val-gasto">R\$ 0,00</strong>
+                </div>
+                <div class="p-item" id="status-box">
+                    <span>Saldo Atual:</span>
+                    <strong id="val-saldo">R\$ 0,00</strong>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bloco 2: O Algoritmo de Decisão de Compras -->
+        <section class="card compras-section">
+
+            <form id="form-item" onsubmit="adicionarItem(event)">
+                <div class="form-grid-3">
+                    <div class="form-group">
+                        <label for="item-nome">Produto / Gasto:</label>
+                        <input type="text" id="item-nome" placeholder="Ex: Curso, Tênis, Mercado" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="item-valor">Valor (R\$):</label>
+                        <input type="number" id="item-valor" placeholder="Ex: 150" min="0.01" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="item-prioridade">Classificação:</label>
+                        <select id="item-prioridade">
+                            <option value="essencial">Essencial</option>
+                            <option value="importante">Importante</option>
+                            <option value="desejavel">Desejável (Impulso?)</option>
+                        </select>
+                    </div>
+                </div>
+                <button type="submit" class="btn-add">Executar Algoritmo no Item</button>
+            </form>
+
+            <div class="tabela-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Produto</th>
+                            <th>Valor</th>
+                            <th>Classificação</th>
+                            <th>Decisão do Sistema</th>
+                            <th>Ação</th>
+                        </tr>
+                    </thead>
+                    <tbody id="lista-compras">
+                        <!-- Itens inseridos dinamicamente pelo JS -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+            </ul>
+        </section>
+
+    </div>
+
+    <!-- Script de Automação Interativa -->
+    <script>
+        let itens = [];
+
+        function atualizarPainel() {
+            const orcamento = parseFloat(document.getElementById('orcamento').value) || 0;
+            const pctReserva = parseFloat(document.getElementById('reserva-pct').value) || 0;
+
+            // Cálculos base
+            const valorReserva = orcamento * (pctReserva / 100);
+            const valorDisponivel = orcamento - valorReserva;
+
+            // Somar gastos atuais
+            const totalGasto = itens.reduce((sum, item) => sum + item.valor, 0);
+            const saldoFinal = valorDisponivel - totalGasto;
+
+            // Atualizar interface de texto
+            document.getElementById('val-reserva').innerText = formatarMoeda(valorReserva);
+            document.getElementById('val-disponivel').innerText = formatarMoeda(valorDisponivel);
+            document.getElementById('val-gasto').innerText = formatarMoeda(totalGasto);
+            document.getElementById('val-saldo').innerText = formatarMoeda(saldoFinal);
+
+            // Estilização dinâmica baseada em estouro de orçamento
+            const statusBox = document.getElementById('status-box');
+            if (saldoFinal < 0) {
+                statusBox.style.backgroundColor = '#fce4e4';
+                statusBox.style.color = '#c0392b';
+            } else {
+                statusBox.style.backgroundColor = '#e8f8f5';
+                statusBox.style.color = '#27ae60';
+            }
+        }
+
+        function adicionarItem(event) {
+            event.preventDefault();
+
+            const nome = document.getElementById('item-nome').value;
+            const valor = parseFloat(document.getElementById('item-valor').value);
+            const prioridade = document.getElementById('item-prioridade').value;
+
+            // Regra Algorítmica de Decisão
+            let decisao = "✅";
+            let classeDecisao = "status-ok";
+
+            if (prioridade === "desejavel") {
+                decisao = "❌";
+                classeDecisao = "status-alerta";
+            } else if (prioridade === "importante") {
+                decisao = "⚠️";
+                classeDecisao = "status-atencao";
+            }
+
+            const novoItem = { id: Date.now(), nome, valor, prioridade, decisao, classeDecisao };
+            itens.push(novoItem);
+
+            document.getElementById('form-item').reset();
+            renderizarTabela();
+            atualizarPainel();
+        }
+
+        function removerItem(id) {
+            itens = itens.filter(item => item.id !== id);
+            renderizarTabela();
+            atualizarPainel();
+        }
+
+        function renderizarTabela() {
+            const tbody = document.getElementById('lista-compras');
+            tbody.innerHTML = '';
+
+            itens.forEach(item => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><strong>${item.nome}</strong></td>
+                    <td>${formatarMoeda(item.valor)}</td>
+                    <td><span class="badge ${item.prioridade}">${item.prioridade.toUpperCase()}</span></td>
+                    <td><span class="decisao-txt ${item.classeDecisao}">${item.decisao}</span></td>
+                    <td><button class="btn-deletar" onclick="removerItem(${item.id})">❌</button></td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function formatarMoeda(valor) {
+            return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        }
+
+        // Inicialização primária
+        atualizarPainel();
+    </script>
+</body>
+</html>

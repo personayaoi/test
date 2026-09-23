@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grão Divino Café</title>
+</head>
+<body>
+
+    <!-- Cabeçalho com o nome e o menu de navegação -->
+    <header>
+        <h1>Grão Divino Café</h1>
+        <nav>
+            <ul>
+                <li><a href="#sobre">Sobre Nós</a></li>
+                <li><a href="#cardapio">Cardápio</a></li>
+                <li><a href="#horarios">Horários</a></li>
+                <li><a href="#cadastro">Clube de Benefícios</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Área principal do conteúdo -->
+    <main>
+
+        <!-- Seção de apresentação com título, subtítulo, parágrafos e imagem -->
+        <section id="sobre">
+            <h2>O sabor do café artesanal</h2>
+            <h3>Tradicional, fresco e feito com amor desde 2026</h3>
+            
+            <p>No Grão Divino Café, nós acreditamos que o café vai muito além de uma simples bebida. Cada xícara conta uma história, desde a cuidadosa seleção dos grãos orgânicos até o processo de torrefação artesanal feito aqui mesmo por nossos mestres baristas.</p>
+            
+            <p>Venha viver uma experiência sensorial única em um ambiente acolhedor, perfeito para ler um livro, trabalhar ou reunir os amigos para uma boa conversa acompanhada do melhor expresso da cidade.</p>
+
+            <img src="https://unsplash.com" alt="Uma xícara de café expresso com desenho de coração na espuma de leite, em cima de uma mesa de madeira">
+        </section>
+
+        <!-- Seção com a lista de produtos -->
+        <section id="cardapio">
+            <h2>Nossos Cafés Mais Pedidos</h2>
+            <ul>
+                <li>Expresso Tradicional - R$ 6,00</li>
+                <li>Cappuccino Italiano - R$ 9,50</li>
+                <li>Café Latte Macchiato - R$ 11,00</li>
+                <li>Mocha com Chocolate Belga - R$ 12,50</li>
+                <li>Cold Brew (Café Gelado) - R$ 10,00</li>
+            </ul>
+        </section>
+
+        <!-- Seção com a tabela de horários -->
+        <section id="horarios">
+            <h2>Nossos Horários de Funcionamento</h2>
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>Dias da Semana</th>
+                        <th>Horário de Abertura</th>
+                        <th>Horário de Fechamento</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Segunda a Sexta</td>
+                        <td>07:00</td>
+                        <td>20:00</td>
+                    </tr>
+                    <tr>
+                        <td>Sábados</td>
+                        <td>08:00</td>
+                        <td>18:00</td>
+                    </tr>
+                    <tr>
+                        <td>Domingos e Feriados</td>
+                        <td>08:00</td>
+                        <td>13:00</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Seção do formulário (Clube de Benefícios / Workshops da cafeteria) -->
+        <section id="cadastro">
+            <h2>Participe dos nossos Workshops de Barista</h2>
+            <p>Inscreva-se para aprender a fazer o café perfeito em casa e ganhar descontos exclusivos!</p>
+            
+            <form action="#" method="POST">
+                <div>
+                    <label for="nome">Nome Completo:</label>
+                    <input type="text" id="nome" name="nome" required>
+                </div>
+                <br>
+                <div>
+                    <label for="email">E-mail:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <br>
+                <div>
+                    <label for="senha">Crie uma Senha:</label>
+                    <input type="password" id="senha" name="senha" required>
+                </div>
+                <br>
+                <div>
+                    <label for="curso-interesse">Qual curso deseja fazer?</label>
+                    <select id="curso-interesse" name="curso_interesse">
+                        <option value="informatica">Informática (Gestão de Cafeterias)</option>
+                        <option value="administracao">Administração de Negócios</option>
+                        <option value="eletronica">Eletrônica (Manutenção de Máquinas de Expresso)</option>
+                    </select>
+                </div>
+                <br>
+                <button type="submit">Garantir Minha Vaga</button>
+            </form>
+        </section>
+
+    </main>
+
+    <!-- Rodapé da página -->
+    <footer>
+        <p>&copy; 2026 Grão Divino Café. Todos os direitos reservados.</p>
+    </footer>
+
+</body>
+</html>
